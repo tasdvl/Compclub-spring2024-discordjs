@@ -89,8 +89,56 @@ Select the server you made in the dropdown that shows to add your bot to the ser
 
 You should see your bot join your server with a welcome message. We're done with actually making the bot! Yay!
 
-## Making our first command
+## Adding code to our bot
 
 TODO: give them a runnable script that just installs node.js, npm and discord.js
 
 (note: if you're reading this as an instuctor then pls install all of these yourself hehe)
+
+> Let's take a look at the files we have in our project so far:
+
+## `index.js`
+
+The index is where our robot will first start working from. The code to setup your bot is mostly filled in for you.
+
+## `deploy-commands.js`
+
+Deploy-commands contains the script that your repo uses to register the commands added to your bot. We'll learn more about this file and what it does when we explore the *slash command builder*, but you can also leave this one untouched for now.
+
+## `package-lock.json`, `package.json`, `.giitignore`, 
+
+These are setup files in our folder! Don't worry about these (or change them).
+
+## `config.json`
+
+<center><img src="BotGuide-images/config.png" width="600"></center>
+
+Your config file holds the specific information needed by **your** bot in particular. To fill in each field,
+
+### `token`:
+
+Navigate back to your bot application in the discord developer portal, and go to the `bot` tab. Scroll down until you see the `reset token` button; click this and it should give you your bot's token that you can copy into the config file.
+- It's important to note that your token should be kept as private as possible! if you share your token, other people could add code to and access your discord bot. Make sure you only put it into your `config.json` file and nowhere else.
+
+### `clientId`:
+
+Navigate to `general information` on the discord developer portal, and copy the text listed as **Application ID**. Paste this into your config file.
+
+### `guildId`:
+
+Our coding interface refers to servers as 'guilds'. So, we need to pick which server we want our bot to be able to execute commands in. In your Discord app, right click the icon of the server you just made on the side. 
+
+<center><img src="BotGuide-images/serverid.png" width="200"></center>
+
+Click on `copy server id`, and then paste this into the guildid field in your config.json.
+
+## Adding our first code
+
+Now that we've linked our bot to our code using its token, we can try running it!
+
+Everytime we want to run our bot, we have to start it by typing `node .` in our terminal. It's important to remember that whenever we add a new feature, we have to shut down the bot (by pressing `CTRL + C`) and start it again.
+
+Press `CTRL + ~` on your keyboard to open the terminal, and run `node .` in the `2024-compclub-spring` directory to start your bot! To verify if it started, you can go into your server and look at the *member list* on the right side - if your bot powered on successfully, it should display under the 'online' category. (It should also send you a message in the terminal of whatever coding app you're using).
+
+Right now, our bot barely has any functionality! In fact, the only thing it can do is run a command called `ping`. To try it out, go into the `#general` chat of your server and type `/ping` in the message bar. Let's give it some functionality!
+
