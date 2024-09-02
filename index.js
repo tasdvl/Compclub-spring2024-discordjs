@@ -3,7 +3,8 @@ const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -23,16 +24,12 @@ for (const folder of commandFolders) {
 	}
 }
 
-client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
-
-// YOUR CODE GOES HERE:  /////////////////////////////////////////////////////////////////////////
 
 
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// client.once(Events.ClientReady, readyClient => {
+// 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+// 	client.channels.cache.get('1270012935330336810').send("I AWAKE 👁️👅👁️");
+// });
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
@@ -53,6 +50,18 @@ client.on(Events.InteractionCreate, async interaction => {
 			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
+});
+
+// Listen for messages
+client.on('messageCreate', message => {
+    // Ignore messages from the bot itself to prevent loops
+    if (message.author.bot) return;
+
+    // Check if the message contains the word "meow"
+    if (message.content.toLowerCase().includes('meow')) {
+        // Reply with a response
+        message.reply('Nyaaa uwu ~ :3');
+    }
 });
 
 client.login(token);
