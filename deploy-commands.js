@@ -1,11 +1,11 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const config = require('./config.json');
 
-require('dotenv').config();
-const token = process.env.TOKEN;
-const clientId = process.env.CLIENT_ID;
-const guildId = process.env.GUILD_ID;
+const token = config.token;
+const clientId = config.clientId;
+const guildId = config.guildId;
 
 const commands = [];
 // Grab all the command folders from the commands directory you created earlier
@@ -20,6 +20,7 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
+const config = require('./config.json');
 		if ('data' in command && 'execute' in command) {
 			commands.push(command.data.toJSON());
 		} else {

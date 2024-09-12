@@ -8,10 +8,10 @@ const { checkRule, getAttackMessage, checkMuted } = require('./service');
 const { setRules, obtainRules } = require('./rules');
 const { attackMonster, checkHealth, spawnMonster } = require('./monsters');
 
-require('dotenv').config();
+const config = require('./config.json');
 
-const token = process.env.TOKEN;
-const guildId = process.env.GUILD_ID;
+const token = config.token;
+const guildId = config.guildId;
 
 // Create a new bot client
 const client = new Client({ 
