@@ -91,7 +91,7 @@ You should see your bot join your server with a welcome message. We're done with
 
 ## Adding code to our bot
 
-TODO: give them a runnable script that just installs node.js, npm and discord.js
+TODO: give them a runnable script that just installs node.js (version - node v20.11 upwards but not v22), npm and discord.js
 
 (note: if you're reading this as an instuctor then pls install all of these yourself hehe)
 
