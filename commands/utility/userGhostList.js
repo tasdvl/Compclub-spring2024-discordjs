@@ -4,36 +4,16 @@ import { getUserCollection } from '../../ghost-info.js';
 export const data = new SlashCommandBuilder()
 		.setName('userghostlist')
 		.setDescription("Returns a list of this user's claimed ghosts")
-        .addUserOption(option => 
-            option.setName('user')
-            .setDescription('the user whose list to show')
-            .setRequired(true));
+        // TODO: allow this command to take in a username as an additional parameter
     
 export async function execute(interaction) {
-    const user = interaction.options.getUser('user');
-    if (!user) {
-        await interaction.reply('The user cannot be found!');
-    } 
 
-    const collection = getUserCollection(user.id) || [];
-    let descriptionMsg;
+    // TODO: implement this function
 
-    if (collection.length == 0) {
-        descriptionMsg = "This user does not have ghosts yet!";
-    } else {
-        descriptionMsg = collection.map(g => g.name).join('\n');
-    }
+    // 1. get the user's collection, and print out all of them.
+    // you may want to look at js' .join() function for help
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
+    
+    // 2. put the printed out list into an embed, and send the embed
 
-    const ghostEmbed = {
-        title: `${user.username}'s collection`,
-        color: 0x0099FF,
-        description: descriptionMsg,
-        thumbnail: {
-            url: user.displayAvatarURL({dynamic: true})
-        }
-    }
-
-    await interaction.reply({
-        embeds: [ghostEmbed]
-    });
 }

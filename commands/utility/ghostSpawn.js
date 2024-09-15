@@ -9,56 +9,29 @@ export const data = new SlashCommandBuilder()
 export async function execute(interaction) {
     // part 1: spawning the ghost ------------------------------------------
 
-    let ghost = getRandomGhost();
-    let owner = getGhostOwnerID(ghost.name);
-    let footerText;
+    // TODO: implement this function :)
 
-    if (owner === "") {
-        footerText = "react with any emoji to claim!"
-    } else {
-        const u = await interaction.client.users.fetch(owner);
-        footerText = `belongs to ${u.username}`
-    }
+    /* We recommend following the steps listed - though feel free to 
+       implement it your own way if you want!
+       Remember to look through ghost-info and ghost-utility to see if
+       there are any functions that could help you
+    */
 
-    const ghostEmbed = {
-        title: ghost.name,
-        color: 0x0099FF,
-        image: { url: generateImageUrl(ghost)},
-        fields: [
-            { name: 'Rarity', value: ghost.rarity.toString() + "/5", inline: true },
-            { name: 'Types', value: getGhostTypes(ghost), inline: true },
-        ],
-        footer: { 
-            text: footerText
-        }
-    }
+    // 1. Generate a random ghost to be posted
 
-    const msg = await interaction.reply({
-        embeds: [ghostEmbed],
-        files: [getImageAttachment(ghost)],
-        fetchReply: true
-    });
+    // 2. Create an embed to send the ghost to the discord channel.
+    // this should include the ghost's name, its image, its rarity and types,
+    // and a footer. (Play around with the bot on the CompClub discord
+    // for details on what to put in these fields.)
+
+    // 3. Send the embed to the discord channel
+
 
     // part 2: handling the reacts ------------------------------------------
 
-    const filter = (reaction, user) => !user.bot;
+    // 1. Create a new reaction collector to grab message reacts
 
-    const reactCollector = msg.createReactionCollector({ filter: filter, max: 1, time: 10000 })
-
-    reactCollector.on('collect', async (reaction, user) => {
-        console.log('ghost collected!')
-
-        if (claimGhost(user.id, ghost)) {
-            interaction.followUp(`${user.username} has claimed ${ghost.name}!`)
-        } else {
-            interaction.followUp(`oops! this ghost has already been claimed`)
-        }
-    });
-
-    reactCollector.on('end', (collected, reason) => {
-        if (reason === 'time') {
-            console.log('No one reacted in time! The ghost disappeared :(');
-        }
-    });
-
+    // 2. Add the ghost to a user's claimed ghosts if they react to an 
+    // unclaimed ghost - if it is already claimed then it should respond with
+    // a fitting error message.
 }
