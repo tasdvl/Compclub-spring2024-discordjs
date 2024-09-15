@@ -1,11 +1,17 @@
 import { SlashCommandBuilder } from 'discord.js';
 
-const data = new SlashCommandBuilder()
+export const data = new SlashCommandBuilder()
 	.setName('ping')
 	.setDescription('Replies with Pong!');
 
-async function execute(interaction) {
-	await interaction.reply('Pong!');
-}
+export async function execute(interaction) {
+	const pingEmbed = {
+		title: "Pong!",
+		color: 0x0099FF,
+		description: (interaction.createdTimestamp - Date.now() - 5000) + " ms (round trip)",
+	}
 
-export { data, execute }
+	await interaction.reply({
+		embeds: [pingEmbed],
+	});
+}

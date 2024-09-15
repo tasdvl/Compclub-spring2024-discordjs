@@ -5,15 +5,15 @@
         ghosts: [] an array of all the ghosts the user has
     }
 */
-const userClaims = [];
+export const userClaims = [];
 
 // given a ghost, adds the ghost to a list of the user's
 // collected ghosts. Should return true if it succeeds and
 // false if someone else already owns that ghost
-function claimGhost(userId, ghost) {
+export function claimGhost(userId, ghost) {
     if (getGhostOwnerID(ghost.name) === "") {
-        user = userClaims.find(u => u.ID === userId);
-        if (!user) {
+        const user = userClaims.find(u => u.ID === userId);
+        if (user === undefined) {
             userClaims.push({ID: userId, ghosts: [ghost]});
         } else {
             user.ghosts.push(ghost);
@@ -25,9 +25,9 @@ function claimGhost(userId, ghost) {
 
 // should return an array of all the ghosts a user owns,
 // or [] if they don't own any
-function getUserCollection(userId) {
-    user = userClaims.find(u => u.ID === userId);
-    if (!user) {
+export function getUserCollection(userId) {
+    const user = userClaims.find(u => u.ID === userId);
+    if (user === undefined) {
         return [];
     } else {
         return user.ghosts;
@@ -36,17 +36,11 @@ function getUserCollection(userId) {
 
 // returns the user ID of the ghost's owner, and if the
 // ghost is unclaimed then just returns ""
-function getGhostOwnerID(ghostName) {
-    for (user of userClaims) {
+export function getGhostOwnerID(ghostName) {
+    for (let user of userClaims) {
         if (user.ghosts.some(g => g.name.toLowerCase() === ghostName.toLowerCase())) {
             return user.ID;
         }
     }
     return "";
-}
-
-module.exports = {
-    claimGhost,
-    getUserCollection,
-    getGhostOwnerID
 }

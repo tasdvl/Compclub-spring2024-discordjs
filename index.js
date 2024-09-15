@@ -4,13 +4,16 @@ const { token } = config;
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages,
-	GatewayIntentBits.MessageContent] });
+	GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMessageReactions] });
 
 client.commands = new Collection();
-const __dirname = import.meta.dirname;
-const foldersPath = path.join(__dirname, 'commands');
+const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -26,8 +29,6 @@ for (const folder of commandFolders) {
 		}
 	}
 }
-
-
 
 // client.once(Events.ClientReady, readyClient => {
 // 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);

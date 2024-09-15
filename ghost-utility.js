@@ -1,6 +1,10 @@
-const { AttachmentBuilder } = require('discord.js');
-const { dataStore, getNameFromGhost } = require('./ghosts-index');
-const path = require('path');
+import { AttachmentBuilder } from 'discord.js';
+import { dataStore, getNameFromGhost } from './ghosts-index.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* ----------------------------------------------------------------------------
 
@@ -14,7 +18,7 @@ written code, ask a mentor! :D
 
 // randomly generates a ghost - rarer ghosts are less likely to appear!
 // returns a Ghost (has a name, image, rarity etc)
-function getRandomGhost() {
+export function getRandomGhost() {
     let totalWeight = 0;
     const cumulative = [];
 
@@ -35,12 +39,12 @@ function getRandomGhost() {
 }
 
 // gets the types of the given ghost as a string - useful for discord embed
-function getGhostTypes(ghost) {
+export function getGhostTypes(ghost) {
     return ghost.types.map(type => getNameFromGhost[type]).join(", ");
 }
 
 // creates an attachment from the ghost's supplied image - useful for discord embed
-function getImageAttachment(ghost) {
+export function getImageAttachment(ghost) {
     const imagePath = 
         path.join(__dirname + "/commands/utility", '..', '..', ghost.image_url);
     return new AttachmentBuilder(imagePath);
@@ -48,15 +52,8 @@ function getImageAttachment(ghost) {
 
 // creates an embeddable url from the ghost's supplied image 
 // useful for discord embed
-function generateImageUrl(ghost) {
+export function generateImageUrl(ghost) {
     const imagePath = 
         path.join(__dirname + "/commands/utility", '..', '..', ghost.image_url);
     return `attachment://${path.basename(imagePath)}`
-}
-
-module.exports = {
-    getRandomGhost,
-    getGhostTypes,
-    getImageAttachment,
-    generateImageUrl
 }

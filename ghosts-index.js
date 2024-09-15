@@ -1,4 +1,4 @@
-const GhostTypes = Object.freeze({
+export const GhostTypes = Object.freeze({
     ANIMAL: 0,
     POKEMON: 1,
     FOOD: 2,
@@ -9,7 +9,7 @@ const GhostTypes = Object.freeze({
 });
 
 // Reverse the GhostTypes object to get a mapping from number to string
-const getNameFromGhost = Object.keys(GhostTypes).reduce((acc, key) => {
+export const getNameFromGhost = Object.keys(GhostTypes).reduce((acc, key) => {
     acc[GhostTypes[key]] = key;
     return acc;
 }, {});
@@ -22,7 +22,7 @@ and for types change the TypeTotals array at the bottom of the datastore.
 
 -----------------------------------------------------------------------------*/
 
-let dataStore = {
+export let dataStore = {
     GhostsIndex : [
         {
             name: "Pikachu",
@@ -122,9 +122,3 @@ let dataStore = {
         },
     ]
 }
-
-module.exports = {
-    dataStore,
-    getNameFromGhost
-}
-
