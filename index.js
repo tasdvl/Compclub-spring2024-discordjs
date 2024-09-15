@@ -1,7 +1,6 @@
-import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import config from './config.json' assert { type: "json" };
 const { token } = config;
-
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
@@ -30,31 +29,19 @@ for (const folder of commandFolders) {
 	}
 }
 
-// client.once(Events.ClientReady, readyClient => {
-// 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-// 	client.channels.cache.get('1270012935330336810').send("I AWAKE 👁️👅👁️");
-// });
+const eventsPath = path.join(import.meta.dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
-	const command = interaction.client.commands.get(interaction.commandName);
-
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
+for (const file of eventFiles) {
+	console.log(`${file} loaded`)
+	const filePath = path.join(eventsPath, file);
+	const event = await import(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-		} else {
-			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-		}
-	}
-});
+}
 
 // Listen for messages
 client.on('messageCreate', message => {
