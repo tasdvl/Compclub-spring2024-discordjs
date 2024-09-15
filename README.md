@@ -18,7 +18,9 @@ If you want to try create this bot, try to implement the following slash command
 | `write_joke` | add a joke to this bot's database |
 | `check_candy` | Checks the amount of candy this user owns |
 | `hourly_candy` | Every hour, a user gains 10 candy with the chance to earn the double the candy. This function should fail if the user has already called the function within the past hour |
-| `check_candy` | Checks how much candy a user has |
+| `check_candy` | Checks how much candy the user has |
+| `check_candy_user` | Checks how much candy any user has |
+| `coin_flip_candy` | Flips a coin and decides whether the user gets to double the money that they choose to risk |
 | `leaderboard` | Requests the top 5 people with the most candy |
 | `leaderboard_position` | Requests the User's position within the leaderboard |
 | `steal_candy` | Has a chance to steal candy from a separate user but if fails, results in a lost of candy. Can not steal if the user does not have a positive balance of candy |

@@ -30,7 +30,7 @@ async function execute(interaction) {
 	} else if (!data[target]) {
 		await interaction.reply(`Player has not registered into the candy system :(`);
 		return;
-	} else if (data[target].candy < 0) {
+	} else if (data[self_id].candy < 0) {
 		await interaction.reply(`You don't have enough candy to pay the penalty if you get caught!`);
 		return;
 	} 
@@ -49,7 +49,7 @@ async function execute(interaction) {
 	} else {
 		const fine = Math.floor(stealing_amount * Math.random() * 1.5);
 		data[self_id].candy -= fine;
-		await interaction.reply(`You've been fined heavily for your sins! You have been fined $${fine}. Your new balance is $${data[self_id].candy}`);
+		await interaction.reply(`You've been fined heavily for your sins! You have been fined ${fine} candies. Your new balance is ${data[self_id].candy}`);
 	}
 
 	fs.writeFileSync('./commands/resources/users.json', JSON.stringify(data));

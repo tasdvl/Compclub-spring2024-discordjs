@@ -1,15 +1,25 @@
 import { SlashCommandBuilder } from 'discord.js';
-import fs from 'fs';
+import request from 'then-request';
+import { setTimeout } from 'node:timers/promises';
 
 const data = new SlashCommandBuilder()
-	.setName('tell_joke')
-	.setDescription('Tells a very good joke');
+	.setName('tell_amazing_joke')
+	.setDescription('Tells an amazing joke (stolen from other people)');
 
 async function execute(interaction) {
-	const jokesJson = fs.readFileSync('./commands/resources/joke.json', {flag: 'r'});
-	const jokes = JSON.parse(jokesJson).jokes;
-	const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
-	await interaction.reply(randomJoke);
+	// TODO: Find Dad Jokes
+	let jokeReq = await request(
+		'GET',
+		'https://icanhazdadjoke.com/',
+		{ headers: {
+				"Accept": "text/plain"
+			}
+		}
+	);
+	let joke = jokeReq.body.toString();
+	await interaction.reply(joke);
+	setTimeout(2000);
+	await interaction.followUp(":joy:");
 }
 
 export { data, execute }

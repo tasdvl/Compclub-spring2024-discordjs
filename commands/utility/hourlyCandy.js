@@ -21,7 +21,7 @@ async function execute(interaction) {
 		const date = getTodayHour();
 		if (JSON.stringify(date) === JSON.stringify(userData.lastCandyDate)) {
 			// They have already run the command today
-			await interaction.reply('You have already run the command today. Please wait until tomorrow');
+			await interaction.reply('You have already run the command today. Please wait until next hour');
 			return;
 		} else {
 			if (Math.random() >= 0.98) {

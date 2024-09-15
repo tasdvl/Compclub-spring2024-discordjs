@@ -7,7 +7,6 @@ const data = new SlashCommandBuilder()
 	.setDescription('Tells an amazing joke (stolen from other people)');
 
 async function execute(interaction) {
-	// TODO: Find Dad Jokes
 	let jokeReq = await request(
 		'GET',
 		'https://icanhazdadjoke.com/',
