@@ -20,26 +20,20 @@ Download an audio file of your choosing (I used the fnaf 1 jumpscare noise), nam
 called audio (which goes in the base directory)
 
 ### Imports and Intents
-At the start, import new functions from discord.js, adding VoiceConnectionStatus, joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus.
 
-We also need to add channelType to the requires from discord.js.
+We  need to change the imports and client declaration in index.js so they become:
+```
+import { Client, Collection, Events, GatewayIntentBits, ChannelType } from 'discord.js';
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates] });
+```
+Also add the new imports to the top of index.js:
+```
+import { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
+```
 
-```
-const { Client, Collection, Events, GatewayIntentBits, ChannelType } = require('discord.js');
-const { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice');
-```
-Then, modify your const client as so:
-
-```
-const client = new Client({ intents: [
-	GatewayIntentBits.Guilds,
-	GatewayIntentBits.GuildVoiceStates,
-	GatewayIntentBits.GuildMessages,
-	GatewayIntentBits.MessageContent
-] });
-```
 ### Code
-Then all code below goes under the CODE GOES HERE section of index.js
+Then all code below goes just above the last line of code (client.login(token);):
+
 ```
 // function to generate a random delay between min and max minutes
 function getRandomDelayInMinutes(min, max) {
@@ -48,10 +42,7 @@ function getRandomDelayInMinutes(min, max) {
     const maxMillis = max * 60 * 1000;
     return Math.floor(Math.random() * (maxMillis - minMillis + 1)) + minMillis;
 }
-```
-The above function generates a random delay in minutes, which is used so the bot can determine
-when to join the voice call.
-```
+
 async function jumpscare(oldState, newState) {
     // check if the bot itself is joining the channel
     if (newState.member.user.id === client.user.id) {
@@ -61,7 +52,7 @@ async function jumpscare(oldState, newState) {
     // check if any user has joined a voice channel
     if (!oldState.channelId && newState.channelId) {
         // generate the random delay
-        const delay = getRandomDelayInMinutes(0, 10);
+        const delay = getRandomDelayInMinutes(0, 0);
 
         console.log(`User ${newState.member.user.tag} joined a voice channel. Waiting for ${delay / (60 * 1000)} minutes.`);
 
@@ -124,7 +115,7 @@ async function jumpscare(oldState, newState) {
 
 
 // Register the voiceStateUpdate event listener
-client.on('voiceStateUpdate', jumpscare);
+client.on(Events.VoiceStateUpdate, (oldState, newState) => jumpscare(client, oldState, newState));
 ```
 and that's the rest of the code. Let's go over it in chunks, so we can see what each chunk does :))
 
@@ -199,7 +190,7 @@ When we play the audio, we need to play it to the connection to the voice channe
 
 ```
 // Register the voiceStateUpdate event listener
-client.on('voiceStateUpdate', jumpscare);
+client.on(Events.VoiceStateUpdate, (oldState, newState) => jumpscare(client, oldState, newState));
 ```
 
 Without registering the voiceStateUpdate event listener, our function will not actively listen for a change in voiceState (that is, voice calls)
