@@ -135,4 +135,4 @@ const obtainRules = () => {
   return [activeRule1, activeRule2];
 }
 
-module.exports = { obtainRules, setRules, Rule };
+export default { obtainRules, setRules, Rule };

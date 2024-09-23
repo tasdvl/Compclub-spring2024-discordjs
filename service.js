@@ -70,4 +70,4 @@ const unmute = () => {
 	MUTED = false;
 };
 
-module.exports = { checkRule, getAttackMessage, checkMuted, mute, unmute };
+export default { checkRule, getAttackMessage, checkMuted, mute, unmute };

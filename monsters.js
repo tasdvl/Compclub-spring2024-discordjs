@@ -20,4 +20,4 @@ const getOriginalHealth = () => {
   return originalHealth;
 }
 
-module.exports = { attackMonster, spawnMonster, checkHealth, getOriginalHealth };
+export default { attackMonster, spawnMonster, checkHealth, getOriginalHealth };

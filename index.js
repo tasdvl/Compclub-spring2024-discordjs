@@ -1,14 +1,14 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const { Client, Events, GatewayIntentBits, Collection } = require("discord.js");
-const wordExists = require('word-exists');
-const schedule = require('node-schedule');
+import { Client, Events, GatewayIntentBits, Collection } from "discord.js";
+import schedule from "node-schedule";
+import fs from "node:fs";
+import path from "node:path";
+import config from './config.json' assert { type: "json" };
+import wordExists from "word-exists";
 
-const { checkRule, getAttackMessage, checkMuted } = require('./service');
-const { setRules, obtainRules } = require('./rules');
-const { attackMonster, checkHealth, spawnMonster } = require('./monsters');
+import { checkRule, getAttackMessage, checkMuted } from './service';
+import { setRules, obtainRules } from './rules';
+import { attackMonster, checkHealth, spawnMonster } from './monsters';
 
-const config = require('./config.json');
 
 const token = config.token;
 const guildId = config.guildId;
@@ -21,6 +21,36 @@ const client = new Client({
 		GatewayIntentBits.MessageContent,
 	] 
 });
+
+// To create dynamic commands, we create a collection to store the commands
+client.commands = new Collection();
+
+// Navigates towards the commands folder and reads all the files in it
+const foldersPath = path.join(__dirname, 'commands');
+
+// This readdirSync navigates towards the 'utility' folder
+const commandFolders = fs.readdirSync(foldersPath);
+
+for (const folder of commandFolders) {
+	const commandsPath = path.join(foldersPath, folder);
+
+  // This readdirSync navigates towards the files (the command files) in the 'utility' folder
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		// Goes through each file and requires it, obtaining their names and the logic inside them
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+		// Set a new item in the Collection with the key as the command name and the value as the exported module (logic contained)
+		// This check basically checks if the command was properly formatted and defined
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+		} else {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
+}
+
+// Self defined logic
 
 //////////////////////////////////////// CONSTANTS ////////////////////////////////////////
 
@@ -63,36 +93,6 @@ const spawnWrapper = () => {
 	};
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-
-// To create dynamic commands, we create a collection to store the commands
-client.commands = new Collection();
-
-// Navigates towards the commands folder and reads all the files in it
-const foldersPath = path.join(__dirname, 'commands');
-
-// This readdirSync navigates towards the 'utility' folder
-const commandFolders = fs.readdirSync(foldersPath);
-
-for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder);
-
-  // This readdirSync navigates towards the files (the command files) in the 'utility' folder
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		// Goes through each file and requires it, obtaining their names and the logic inside them
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		// Set a new item in the Collection with the key as the command name and the value as the exported module (logic contained)
-		// This check basically checks if the command was properly formatted and defined
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-		}
-	}
-}
-
-// Self defined logic
 
 /**
  * Runs whenever the client (bot) is ready to run!
