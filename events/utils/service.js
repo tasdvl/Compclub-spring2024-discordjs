@@ -1,4 +1,4 @@
-const { obtainRules } = require("./rules");
+import { obtainRules } from "./rules.js";
 
 const digitRegex = /\d/;
 const specialCharRegex = /[!@#]/;
@@ -7,7 +7,7 @@ const specialCharRegex = /[!@#]/;
  * Checks if the word mathces the rule. Returns true if valid, false otherwise.
  * @param {string} word 
  */
-const checkRule = (word) => {
+export const checkRule = (word) => {
   if (digitRegex.test(word) || specialCharRegex.test(word)) {
     return false;
   }
@@ -34,7 +34,7 @@ const checkRule = (word) => {
  * @param {Number} damage 
  * @returns 
  */
-const getAttackMessage = (damage) => {
+export const getAttackMessage = (damage) => {
   const messages = [
     "Good job! Your attack has landed! It dealt " + damage + " damage to the monster!",
     "Well done! Your strike hit the mark, dealing " + damage + " damage to the monster!",
@@ -58,16 +58,16 @@ const getAttackMessage = (damage) => {
  */
 let MUTED = false;
 
-const checkMuted = () => {
+export const checkMuted = () => {
   return MUTED;
 };
 
-const mute = () => {
+export const mute = () => {
 	MUTED = true;
 };
 
-const unmute = () => {
+export const unmute = () => {
 	MUTED = false;
 };
 
-export default { checkRule, getAttackMessage, checkMuted, mute, unmute };
+// export default { checkRule, getAttackMessage, checkMuted, mute, unmute };

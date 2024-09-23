@@ -1,13 +1,10 @@
-import { Events } from "discord.js";
+import { Events } from 'discord.js';
 
 const name = Events.InteractionCreate;
 
-/**
- * Runs whenever a new interaction is created
- * This part of the code is responsible for handling slash commands
- */
 async function execute(interaction) {
-  if (!interaction.isChatInputCommand()) return;
+	if (!interaction.isChatInputCommand()) return;
+
 	const command = interaction.client.commands.get(interaction.commandName);
 
 	if (!command) {
@@ -27,4 +24,4 @@ async function execute(interaction) {
 	}
 }
 
-export default { name, execute };
+export { name, execute }

@@ -1,13 +1,13 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { mute } = require('../../service');
+import { SlashCommandBuilder } from 'discord.js';
+import { mute } from '../../events/utils/service.js';
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('mute-attack-notifications')
-    .setDescription('Mutes attack notifications'),
+const data = new SlashCommandBuilder()
+  .setName('mute-attack-notifications')
+  .setDescription('Mutes attack notifications');
 
-  async execute(interaction) {
-    mute();
-    return interaction.reply(`Attack notifications have been disabled.`);
-  }
+async function execute(interaction) {
+  mute();
+  return interaction.reply(`Attack notifications have been disabled.`);
 }
+
+export { data, execute };

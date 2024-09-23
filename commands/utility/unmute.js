@@ -1,13 +1,13 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { unmute } = require('../../service');
+import { SlashCommandBuilder } from 'discord.js';
+import { unmute } from '../../events/utils/service.js';
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('unmute-attack-notifications')
-    .setDescription('Unmutes attack notifications'),
+const data = new SlashCommandBuilder()
+  .setName('unmute-attack-notifications')
+  .setDescription('Unmutes attack notifications');
 
-  async execute(interaction) {
-    unmute();
-    return interaction.reply(`Attack notifications have been enabled.`);
-  }
+async function execute(interaction) {
+  unmute();
+  return interaction.reply(`Attack notifications have been enabled.`);
 }
+
+export { data, execute };

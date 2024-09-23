@@ -1,4 +1,4 @@
-class Rule {
+export class Rule {
   constructor(
     name,
     description,
@@ -67,11 +67,6 @@ const rules = [
     /^[A-Z]\w*/
   ),
   new Rule(
-    "AlternatingCase",
-    "The word must alternate between uppercase and lowercase letters, starting with uppercase.",
-    /^([A-Z][a-z])*$/
-  ),
-  new Rule(
     "ContainsABCSubsequence",
     "The word must contain the subsequence 'abc' in any order (not necessarily consecutive).",
     /(?=.*a)(?=.*b)(?=.*c)/
@@ -96,7 +91,7 @@ let activeRule2 = rules[1];
  * @param {string[]} rules 
  * @returns 
  */
-const checkValidity = (rules) => {
+export const checkValidity = (rules) => {
   if (rules.includes('StartsWithUppercase') && rules.includes('OnlyLowercase')) {
     return false;
   }
@@ -106,9 +101,6 @@ const checkValidity = (rules) => {
   if (rules.includes('EndsWithVowel') && rules.includes('EndsWithS')) {
     return false;
   }
-  if (rules.includes('AlternatingCase') && rules.includes('OnlyLowercase')) {
-    return false;
-  }
   if (rules.includes('NoRepeatingLetters') && rules.includes('Palindrome')) {
     return false;
   }
@@ -116,7 +108,7 @@ const checkValidity = (rules) => {
   return true;
 }
 
-const setRules = () => {
+export const setRules = () => {
   let validRules = false;
   while (!validRules) {
     let index1 = Math.floor(Math.random() * rules.length);
@@ -131,8 +123,8 @@ const setRules = () => {
   }
 }
 
-const obtainRules = () => {
+export const obtainRules = () => {
   return [activeRule1, activeRule2];
 }
 
-export default { obtainRules, setRules, Rule };
+// export default { obtainRules, setRules, Rule };

@@ -1,12 +1,11 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { getOriginalHealth, checkHealth } = require('../../monsters');
+import { SlashCommandBuilder } from 'discord.js';
+import { getOriginalHealth, checkHealth } from '../../events/utils/monsters.js';
 
-module.exports = {
-  data: new SlashCommandBuilder()
-    .setName('monster-details')
-    .setDescription('Shows details about the current monster and your progress!'),
+const data = new SlashCommandBuilder()
+  .setName('monster-details')
+  .setDescription('Shows details about the current monster and your progress!');
 
-  async execute(interaction) {
+async function execute(interaction) {
     const originalHealth = getOriginalHealth();
     const currentHealth = checkHealth();
     const damage = originalHealth - currentHealth;
@@ -32,5 +31,6 @@ module.exports = {
 \`\`\`` + '\n**Vorazk, the Void Stalker** \n'+ `Vorazk is a mysterious and ancient creature known for its eerie, multi-eyed gaze and its ability to blend into the shadows of the void. Its presence is often accompanied by an ominous silence, and it moves with unsettling speed and precision. The "oVo" pattern in its eyes is said to be a gateway to another dimension, where it draws its power and consumes the souls of those who dare to challenge it.` + `\n\n**Original Health:** ${originalHealth}\n**Current Health:** ${currentHealth}\n**Progress:** ${progress}%`);
   
   return;
-  }
 }
+
+export { data, execute };

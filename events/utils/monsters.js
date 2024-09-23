@@ -1,23 +1,23 @@
 let currentHealth = 1000;
 let originalHealth = 1000;
 
-const attackMonster = (damage) => {
+export const attackMonster = (damage) => {
   currentHealth -= damage;
 }
 
-const spawnMonster = (health) => {
+export const spawnMonster = (health) => {
   currentHealth = health;
   originalHealth = health;
   console.log(`A monster has spawned with ${health} health!`);
   return;
 }
 
-const checkHealth = () => {
+export const checkHealth = () => {
   return currentHealth;
 }
 
-const getOriginalHealth = () => {
+export const getOriginalHealth = () => {
   return originalHealth;
 }
 
-export default { attackMonster, spawnMonster, checkHealth, getOriginalHealth };
+// export default { attackMonster, spawnMonster, checkHealth, getOriginalHealth };

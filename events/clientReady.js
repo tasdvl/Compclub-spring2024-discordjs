@@ -3,15 +3,17 @@ import schedule from "node-schedule";
 
 import { setRules, obtainRules } from './utils/rules.js';
 import { spawnMonster, checkHealth } from './utils/monsters.js';
+import config from '../config.json' assert { type: "json" };
+const { guildId } = config;
 
 const name = Events.ClientReady;
 const once = true;
-const HEALTH_PER_MEMBER = 100;
+const HEALTH_PER_MEMBER = 1;
 
 const spawnWrapper = (client) => {
 	const guild = client.guilds.cache.get(guildId);
 	spawnMonster(HEALTH_PER_MEMBER * guild.memberCount);
-
+	const rules = obtainRules();
 	const generalChannel = guild.channels.cache.find(channel => channel.name === 'general');
 	generalChannel.send(`Beware adventurers! A monster has appeared in the Dream Realm! Defeat it by using words that follow the rules of the day! The rules of the day are: \n \t1. ${rules[0].name} \n2. ${rules[1].name}`);
 	generalChannel.send(`\`\`\`
@@ -42,7 +44,7 @@ const spawnWrapper = (client) => {
 /**
  * Runs whenever the client (bot) is ready to run!
  */
-async function execute(client) {
+function execute(client) {
   console.log(`Logged in as ${client.user.tag}`);
 
 	// Scheduling the monster spawn job. This job will run everyday at 10:00 AM.
@@ -59,6 +61,10 @@ async function execute(client) {
 		spawnWrapper(client);
 	});
 	console.log(`Monster spawn job scheduled at ${job.nextInvocation()}`);
+
+	// 2.1 Spawn the monster immediately
+	setRules();
+	spawnWrapper(client);
 
 	// 3. The bot is ready and listening to messages
   console.log("Ready!");
