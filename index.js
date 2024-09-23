@@ -1,16 +1,9 @@
-import { Client, Events, GatewayIntentBits, Collection } from "discord.js";
-import schedule from "node-schedule";
-import fs from "node:fs";
-import path from "node:path";
+import { Client, GatewayIntentBits, Collection } from 'discord.js';
+import fs from 'node:fs';
+import path from 'node:path';
+
 import config from './config.json' assert { type: "json" };
-import wordExists from "word-exists";
-
-import { checkRule, getAttackMessage, checkMuted } from './service';
-import { setRules, obtainRules } from './rules';
-import { attackMonster, checkHealth, spawnMonster } from './monsters';
-
-const token = config.token;
-const guildId = config.guildId;
+const { token } = config;
 
 // Create a new bot client
 const client = new Client({ 
@@ -21,26 +14,16 @@ const client = new Client({
 	] 
 });
 
-// To create dynamic commands, we create a collection to store the commands
 client.commands = new Collection();
-
-// Navigates towards the commands folder and reads all the files in it
-const foldersPath = path.join(__dirname, 'commands');
-
-// This readdirSync navigates towards the 'utility' folder
+const foldersPath = path.join(import.meta.dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
-
-  // This readdirSync navigates towards the files (the command files) in the 'utility' folder
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 	for (const file of commandFiles) {
-		// Goes through each file and requires it, obtaining their names and the logic inside them
 		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		// Set a new item in the Collection with the key as the command name and the value as the exported module (logic contained)
-		// This check basically checks if the command was properly formatted and defined
+		const command = await import(filePath);
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
 		} else {
@@ -49,22 +32,13 @@ for (const folder of commandFolders) {
 	}
 }
 
-// Path to the events folder
 const eventsPath = path.join(import.meta.dirname, 'events');
-
-// Read all event files
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
 for (const file of eventFiles) {
-	console.log(`${file} loaded`);
-	
-	// Path to the event file
+	console.log(`${file} loaded`)
 	const filePath = path.join(eventsPath, file);
-	
-	// Import the event
 	const event = await import(filePath);
-	
-	// Check if the event should run once or multiple times
 	if (event.once) {
 		client.once(event.name, (...args) => event.execute(...args));
 	} else {
