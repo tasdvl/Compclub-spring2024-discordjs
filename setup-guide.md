@@ -77,6 +77,11 @@ Let's go through setting up your own discord bot.
 
 <center><img src="BotGuide-images/botpic.png" width="700"></center>
 
+then, scroll down and enable all the privileged intents like so:
+
+<center><img src="BotGuide-images/intents.png" width="700"></center>
+
+
 6. Go to the `OAuth2` tab and tick the following permissions:
 
 <center><img src="BotGuide-images/perms.png" width="700"></center>
@@ -91,15 +96,13 @@ You should see your bot join your server with a welcome message. We're done with
 
 ## Adding code to our bot
 
-TODO: give them a runnable script that just installs node.js (version - node v20.11 upwards but not v22), npm and discord.js
-
-(note: if you're reading this as an instuctor then pls install all of these yourself hehe)
+**Open up your terminal and run the link in the slides to get started with coding!**
 
 Let's take a look at the files we have in our project so far:
 
 ## `index.js`
 
-The index is where our robot will first start working from. The code to setup your bot is mostly filled in for you.
+The index is where our robot will first start working from. The code to setup your bot is filled in for you and you shouldn't need to edit this file.
 
 ## `deploy-commands.js`
 
@@ -139,3 +142,9 @@ Now that we've linked our bot to our code using its token, we can try running it
 Everytime we want to run our bot, we have to start it by typing `node .` in our terminal. It's important to remember that whenever we add a new feature, we have to shut down the bot (by pressing `CTRL + C`) and start it again.
 
 Press `CTRL + ~` on your keyboard to open the terminal, and type `node .` to start your bot! To verify if it started, you can go into your server and look at the *member list* on the right side - if your bot powered on successfully, it should display under the 'online' category. (It should also send you a message in the terminal of whatever coding app you're using).
+
+## (Optional) Join the CompClub Student Discord!
+
+We've also created some discord bots for you to play around with! You can try them out by joining the server here:
+
+https://discord.gg/T2rchEpv
