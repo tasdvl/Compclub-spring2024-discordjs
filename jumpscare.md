@@ -1,11 +1,15 @@
 # ur ur ur ur
 ## Premise
 Whenever a user joins a voice call, when this code is implemented correctly the bot will wait a random amount of minutes
-between two ranges you give it, then when the time is right join the voice call with the user and jumpscare them :^)
+between two ranges you give it, then when the time is right join the voice call with the user and jumpscare them :^) <br>
+<br>
+
 
 ## Setup
-Make sure you have the GUILD_VOICE_STATES intent enabled in your bot configuration and in the Discord Developer Portal.
-Enable all three privileged gateway intents.
+Make sure you have the GUILD_VOICE_STATES intent enabled in your bot configuration and in the Discord Developer Portal - 
+ this is done by enabling all three privileged gateway intents on the Discord Developer Portal and importing the relevant intents as explained later.
+ 
+<br>
 
 ### Packages to install
 Do "npm install discord.js @discordjs/voice" to install the voice package.
@@ -19,6 +23,8 @@ also run "sudo apt install ffmpeg" (linux only)
 Download an audio file of your choosing (I used the fnaf 1 jumpscare noise), name it jumpscare.mp3 and place it in a folder
 called audio (which goes in the base directory)
 
+<br>
+
 ### Imports and Intents
 
 We  need to change the imports and client declaration in index.js so they become:
@@ -30,8 +36,9 @@ Also add the new imports to the top of index.js:
 ```
 import { joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource, AudioPlayerStatus } from '@discordjs/voice';
 ```
+<br>
 
-### Code
+## Code
 Then all code below goes just above the last line of code (client.login(token);):
 
 ```
