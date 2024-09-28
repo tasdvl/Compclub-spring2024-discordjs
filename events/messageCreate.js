@@ -21,7 +21,7 @@ async function execute(message) {
 		message.reply(`Good job! Vorazk has been defeated! But beware, he will return soon! 🧛‍♂️`);
 		return
 	}; // If the monster is already dead, do not process any more messages
-	if (message.channel.name !== 'general') return; // If the message is not sent in the 'general' channel, do not process it
+	if (message.channel.name !== 'playground-1') return; // If the message is not sent in the 'playground-1' channel, do not process it
 
 	console.log("--> " + message.content);
 	const originalContent = message.content;

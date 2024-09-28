@@ -8,13 +8,13 @@ const { guildId } = config;
 
 const name = Events.ClientReady;
 const once = true;
-const HEALTH_PER_MEMBER = 1;
+const HEALTH_PER_MEMBER = 100;
 
 const spawnWrapper = (client) => {
 	const guild = client.guilds.cache.get(guildId);
 	spawnMonster(HEALTH_PER_MEMBER * guild.memberCount);
 	const rules = obtainRules();
-	const generalChannel = guild.channels.cache.find(channel => channel.name === 'general');
+	const generalChannel = guild.channels.cache.find(channel => channel.name === 'playground-1');
 	generalChannel.send(`Beware adventurers! A monster has appeared in the Dream Realm! Defeat it by using words that follow the rules of the day! The rules of the day are: \n \t1. ${rules[0].name} \n2. ${rules[1].name}`);
 	generalChannel.send(`\`\`\`
               /|                                           |\\                 
